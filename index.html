@@ -12,7 +12,7 @@
 <body>
   <header>
     <div class="container topbar" role="banner">
-      <div class="brand" aria-label="Marca da loja">
+      <div class="brand brand-desktop" aria-label="Marca da loja">
         <span class="logo" aria-hidden="true"></span>
         <span>Loja Tech <span class="tag">por Junior Bittencourt</span></span>
       </div>
@@ -85,8 +85,8 @@
               <span class="new">R$ 299,90</span>
             </div>
             <div class="actions">
-              <button class="btn add" data-item="Teclado Mecânico RGB">Adicionar ao carrinho</button>
-              <button class="btn secondary wish" data-item="Teclado Mecânico RGB">♡ Favoritar</button>
+              <button class="btn add" data-id="1" data-item="Attack Shark K86">Adicionar ao carrinho</button>
+              <button class="btn secondary wish" data-item="Attack Shark K86">♡ Favoritar</button>
             </div>
           </div>
         </article>
@@ -107,8 +107,8 @@
               <span class="new">R$ 369,90</span>
             </div>
             <div class="actions">
-              <button class="btn add" data-item="Headset Gamer 7.1">Adicionar ao carrinho</button>
-              <button class="btn secondary wish" data-item="Headset Gamer 7.1">♡ Favoritar</button>
+              <button class="btn add" data-id="2" data-item="Attack Shark L80 PRO">Adicionar ao carrinho</button>
+              <button class="btn secondary wish" data-item="Attack Shark L80 PRO">♡ Favoritar</button>
             </div>
           </div>
         </article>
@@ -127,8 +127,8 @@
               <span class="new">R$ 139,90</span>
             </div>
             <div class="actions">
-              <button class="btn add" data-item="Mouse Sem Fio">Adicionar ao carrinho</button>
-              <button class="btn secondary wish" data-item="Mouse Sem Fio">♡ Favoritar</button>
+              <button class="btn add" data-id="3" data-item="Attack Shark X11">Adicionar ao carrinho</button>
+              <button class="btn secondary wish" data-item="Attack Shark X11">♡ Favoritar</button>
             </div>
           </div>
         </article>
@@ -195,12 +195,10 @@
     </header>
 
     <div class="content">
-      <p id="cart-msg">Item adicionado ao carrinho.</p>
-      <div style="display:flex; gap:10px; align-items:center; margin-top:8px;">
-        <label for="cart-qty" class="sr-only">Quantidade</label>
-        <input id="cart-qty" type="number" min="1" value="1"
-               style="width:80px; padding:8px; border-radius:10px; border:1px solid var(--border-strong); background:var(--input-dark); color:#e5e7eb;">
-      </div>
+  <p id="cart-msg">Seu carrinho</p>
+  <ul id="cart-list" style="margin:10px 0 0; padding-left:18px;"></ul>
+</div>
+  
     </div>
 
     <div class="actions">
