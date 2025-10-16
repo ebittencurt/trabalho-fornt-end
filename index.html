@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Loja Tech • Autor: Junior Bittencourt</title>
+  <title>Loja Tech • Autor: Junior Bittencurt</title>
   <meta name="description" content="Landing page simples de e-commerce." />
 
   <link rel="stylesheet" href="./style.css">
@@ -14,7 +14,7 @@
     <div class="container topbar" role="banner">
       <div class="brand brand-desktop" aria-label="Marca da loja">
         <span class="logo" aria-hidden="true"></span>
-        <span>Loja Tech <span class="tag">por Junior Bittencourt</span></span>
+        <span>Loja Tech <span class="tag">por Junior Bittencurt</span></span>
       </div>
 
       <nav aria-label="Navegação principal">
@@ -29,7 +29,6 @@
         class="search-form"
         role="search"
         aria-label="Busca de produtos"
-        onsubmit="event.preventDefault(); alert('Buscando por: ' + document.getElementById('q').value)"
       >
         <label for="q">Buscar produtos</label>
         <input id="q" name="q" type="search" placeholder="Buscar..." autocomplete="off" />
@@ -62,7 +61,7 @@
     </section>
 
     <aside class="author" aria-label="Identificação do autor">
-      Trabalho acadêmico de <b>Junior Bittencourt</b>
+      Trabalho acadêmico de <b>Junior Bittencurt</b>
     </aside>
 
     <section id="produtos" aria-labelledby="produtos-title">
@@ -81,8 +80,8 @@
               Teclado mecânico 75% sem fio, tri-modo, tela TFT e switches hot-swap.
             </p>
             <div class="price">
-              <span class="old">R$ 399,90</span>
-              <span class="new">R$ 299,90</span>
+              <span class="old">R$ 599,90</span>
+              <span class="new">R$ 399,90</span>
             </div>
             <div class="actions">
               <button class="btn add" data-id="1" data-item="Attack Shark K86">Adicionar ao carrinho</button>
@@ -103,8 +102,8 @@
              Headset tri-mode sem fio, microfone duplo, baixa latência e áudio 3D envolvente.
             </p>
             <div class="price">
-              <span class="old">R$ 499,90</span>
-              <span class="new">R$ 369,90</span>
+              <span class="old">R$ 259,90</span>
+              <span class="new">R$ 189,90</span>
             </div>
             <div class="actions">
               <button class="btn add" data-id="2" data-item="Attack Shark L80 PRO">Adicionar ao carrinho</button>
@@ -136,37 +135,85 @@
     </section>
 
     <section class="newsletter" aria-labelledby="news-title">
-      <h2 id="news-title">Assine a newsletter</h2>
-      <p>Receba novidades e descontos exclusivos diretamente no seu e-mail.</p>
+  <h2 id="news-title">Assine a newsletter</h2>
+  <p>Receba novidades e descontos exclusivos diretamente no seu e-mail.</p>
 
-      <form id="form-news" onsubmit="event.preventDefault(); inscreverNewsletter();">
-        <div class="row">
-          <div style="display:grid; gap:6px; flex: 2;">
-            <label for="email">Seu e-mail</label>
-            <input id="email" name="email" type="email" placeholder="voce@exemplo.com" required />
-          </div>
+  <form id="form-news" onsubmit="event.preventDefault(); inscreverNewsletter();">
+    <div class="row">
+      <div class="field">
+        <label for="email">Seu e-mail</label>
+        <input id="email" name="email" type="email" placeholder="voce@exemplo.com" required />
+      </div>
 
-          <div style="display:grid; gap:6px; flex: 1; min-width: 160px;">
-            <label for="nome">Seu nome</label>
-            <input id="nome" name="nome" type="text" placeholder="Seu nome" minlength="2" />
-          </div>
+      <div class="field">
+        <label for="nome">Seu nome</label>
+        <input id="nome" name="nome" type="text" placeholder="Seu nome" minlength="2" />
+      </div>
 
-          <div style="display:grid; gap:6px; align-content:end;">
-            <button type="submit" class="btn">Inscrever</button>
-          </div>
-        </div>
-      </form>
-    </section>
+      <div class="actions">
+        <button type="submit" class="btn">Inscrever</button>
+      </div>
+    </div>
+  </form>
+</section>
+
 
     <section id="ofertas" aria-labelledby="offers-title">
-      <h2 id="offers-title">Ofertas Relâmpago</h2>
-      <p class="muted">Atualizamos as ofertas diariamente. Fique de olho!</p>
+        <h2 id="offers-title">Ofertas Relâmpago</h2>
+        <p class="muted">Atualizamos as ofertas diariamente. Fique de olho!</p>
+       <div id="ofertas-grid" class="grid">
+         <article class="card">
+     <img src="images/mousepad.webp" alt="mouse pad" />
+           <div class="body">
+             <h3>mouse pad</h3>
+             <p>Personalize seu espaço de jogo com o Mouse Pad Ninja de Armadura Vermelho 70x30cm da Muleka Bags, ideal para gamers.</p>
+             <div class="price">
+               <span class="old">R$ 79,99</span>
+               <span class="new">R$ 69,99</span>
+             </div>
+             <div class="actions">
+               <button class="btn add" data-id="4" data-item="mouse pad">Adicionar ao carrinho</button>
+               <button class="btn secondary wish" data-item="mouse pad" data-id="4">♡ Favoritar</button>
+             </div>
+           </div>
+         </article>
+         <article class="card">
+     <img src="images/camera.jpg" alt="Webcam Full HD" />
+           <div class="body">
+             <h3>Webcam Full HD</h3>
+             <p>Capture cada detalhe em 4K com esta webcam, perfeita para seu computador ou notebook, garantindo vídeos nítidos e claros.</p>
+             <div class="price">
+               <span class="old">R$ 199,90</span>
+               <span class="new">R$ 149,90</span>
+             </div>
+             <div class="actions">
+               <button class="btn add" data-id="5" data-item="Webcam Full HD">Adicionar ao carrinho</button>
+               <button class="btn secondary wish" data-item="Webcam Full HD" data-id="5">♡ Favoritar</button>
+             </div>
+           </div>
+         </article>
+         <article class="card">
+     <img src="images/cadeira.jpg" alt="cadeira" />
+           <div class="body">
+             <h3>cadeira ergonomica</h3>
+             <p>Ergonomia e estilo na Cadeira LarkLeaves, com apoio para os pés, encosto de cabeça 3D, ideal para personalizar seu espaço.</p>
+             <div class="price">
+               <span class="old">R$ 999,90</span>
+               <span class="new">R$ 779,90</span>
+             </div>
+             <div class="actions">
+               <button class="btn add" data-id="6" data-item="Hub">Adicionar ao carrinho</button>
+               <button class="btn secondary wish" data-item="Hub" data-id="6">♡ Favoritar</button>
+             </div>
+           </div>
+         </article>
+       </div>
     </section>
   </main>
 
   <footer id="contato">
     <div class="container foot-wrap">
-      <span>&copy; <span id="ano"></span> Loja Tech — Projeto por <strong>Junior Bittencourt</strong></span>
+      <span>&copy; <span id="ano"></span> Loja Tech — Projeto por <strong>Junior Bittencurt</strong></span>
       <span>Feito com HTML Semântico, Flexbox e JS básico</span>
     </div>
   </footer>
@@ -195,20 +242,20 @@
     </header>
 
     <div class="content">
-  <p id="cart-msg">Seu carrinho</p>
-  <ul id="cart-list" style="margin:10px 0 0; padding-left:18px;"></ul>
+      <p id="cart-msg">Seu carrinho</p>
+      <ul id="cart-list" style="margin:10px 0 0; padding-left:18px;"></ul>
 </div>
   
-    </div>
-
-    <div class="actions">
+    <div class="actions modal-cart-actions">
       <button class="btn ghost" id="closeCart">Fechar</button>
       <button class="btn" id="goCheckout">Ver carrinho</button>
     </div>
   </div>
 </div>
-
-
+  </div>
+    </div>
   <script src="script.js" defer></script>
 </body>
 </html>
+
+
