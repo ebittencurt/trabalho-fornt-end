@@ -3,15 +3,39 @@ const $  = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
 
-const toggleTema = $('#toggleTema');
-if (toggleTema) {
-  let isLight = false;
-  toggleTema.addEventListener('click', () => {
-    isLight = !isLight;
-    document.body.classList.toggle('light', isLight);
-    toggleTema.setAttribute('aria-pressed', String(isLight));
-  });
+const toggleTema = document.getElementById('toggleTema');
+let isLight = false;
+
+try {
+  const saved = localStorage.getItem('pref-theme');
+  if (saved === 'light') isLight = true;
+  if (saved === 'dark') isLight = false;
+} catch (e) {
 }
+
+function updateToggleButtonState() {
+  if (!toggleTema) return;
+  document.body.classList.toggle('light', isLight);
+  toggleTema.setAttribute('aria-pressed', String(isLight));
+
+  const icon = toggleTema.querySelector('i');
+  if (icon) icon.className = isLight ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+  const label = isLight ? 'Ativar tema escuro' : 'Ativar tema claro';
+  toggleTema.setAttribute('aria-label', label);
+  toggleTema.setAttribute('title', label);
+}
+
+updateToggleButtonState();
+
+toggleTema?.addEventListener('click', () => {
+  isLight = !isLight;
+  updateToggleButtonState();
+
+  try {
+    localStorage.setItem('pref-theme', isLight ? 'light' : 'dark');
+  } catch (e) {}
+});
+
 
 
 function openModal(backdropEl, modalEl) {
@@ -131,3 +155,64 @@ $$('.btn.add').forEach(btn => {
 
 const anoEl = $('#ano');
 if (anoEl) anoEl.textContent = new Date().getFullYear().toString();
+
+
+function renderCartList() {
+  if (!cartListEl) return;
+
+  const html = Array.from(cart).map(id => `
+    <li style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin:6px 0;">
+      <span>${itemsMap[id]}</span>
+      <button class="btn ghost rm-item" data-id="${id}">Remover</button>
+    </li>
+  `).join('');
+
+  cartListEl.innerHTML = html || '<li>Seu carrinho está vazio.</li>';
+}
+
+cartListEl?.addEventListener('click', (e) => {
+  const btn = e.target.closest('.rm-item');  
+  if (!btn) return;
+
+  const id = btn.getAttribute('data-id');
+  if (!id) return;
+
+  cart.delete(id);
+
+  updateCartBadge();
+
+  renderCartList();
+});
+
+(function montarOfertas(){
+  const grid = document.getElementById('ofertas-grid');
+  if (!grid) return;
+  grid.innerHTML = ofertas.map(cardProdutoHTML).join('');
+
+  document.querySelectorAll('#ofertas .btn.add').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id   = btn.getAttribute('data-id');
+      const name = btn.getAttribute('data-item');
+      if (!id) return;
+      if (cart.has(id)) {
+        showCart(`${name} já está no carrinho.`);
+      } else {
+        cart.add(id);
+        updateCartBadge();
+        showCart(`${name} adicionado ao carrinho.`);
+      }
+    });
+  });
+
+  document.querySelectorAll('#ofertas .btn.wish').forEach(btn => {
+    const id = btn.getAttribute('data-id');
+    btn.setAttribute('aria-pressed', 'false');
+    btn.textContent = '♡ Favoritar';
+    btn.addEventListener('click', () => {
+      const pressed = btn.getAttribute('aria-pressed') === 'true';
+      btn.setAttribute('aria-pressed', String(!pressed));
+      btn.textContent = pressed ? '♡ Favoritar' : '❤️ Desfavoritar';
+    });
+  });
+})();
+

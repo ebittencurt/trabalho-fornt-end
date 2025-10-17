@@ -216,11 +216,6 @@ body.light .btn.secondary { color: #fff; }
   display: block;
 }
 
-
-
-
-
-
 aside.author {
   margin: var(--space-5) 0 var(--space-6);
   padding: var(--space-3);
@@ -238,24 +233,62 @@ aside.author {
   background: linear-gradient(180deg, rgba(34,197,94,.08), rgba(34,197,94,.04));
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  display: grid; gap: var(--space-3);
+  display: grid;
+  gap: var(--space-3);
   color: var(--text);
 }
-.newsletter label { font-weight: 600; color: var(--text); }
-.newsletter .row { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+
+.newsletter label {
+  font-weight: 600;
+  color: var(--text);
+  min-width: 120px;
+  display: inline-block;
+}
+
+.newsletter .row {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  align-items: end;
+}
+
+.newsletter .field {
+  display: grid;
+  gap: 6px;
+  flex: 1 1 250px;
+}
+
+.newsletter .actions {
+  flex: 0 0 auto; 
+}
+
 .newsletter input[type="email"],
 .newsletter input[type="text"] {
-  flex: 1; min-width: 220px;
+  width: 100%;
   background: var(--input-dark);
   border: 1px solid var(--border-strong);
   color: #e5e7eb;
   border-radius: 10px;
   padding: 10px 12px;
+  box-sizing: border-box;
 }
+
 body.light .newsletter input[type="email"],
 body.light .newsletter input[type="text"] {
-  background: #fff; color: #0b1220; border-color: var(--border-strong);
+  background: #fff;
+  color: #0b1220;
+  border-color: var(--border-strong);
 }
+
+@media (max-width: 640px) {
+  .newsletter .row {
+    flex-direction: column;
+  }
+  .newsletter .actions {
+    width: 100%;
+  }
+}
+
 
 
 footer {
@@ -341,8 +374,6 @@ body.light .cart-btn:hover { background: var(--hover-light); }
 @media (min-width:960px){ .grid{ grid-template-columns:repeat(3,1fr); } }
 
 
-/* Removed duplicate .card img selector to resolve conflicting aspect-ratio */
-
 
 .price {
   display: flex;
@@ -369,3 +400,7 @@ body.light .cart-btn:hover { background: var(--hover-light); }
   .price { flex-direction: column; align-items: flex-start; }
 }
 
+#toggleTema i {
+  font-size: 1.2rem;
+  color: var(--text);
+}
