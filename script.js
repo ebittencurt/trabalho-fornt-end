@@ -101,6 +101,9 @@ const itemsMap = {
   "1": "Attack Shark K86",
   "2": "Attack Shark L80 PRO",
   "3": "Attack Shark X11",
+  "4": "mouse pad",
+  "5": "Webcam Full HD",
+  "6": "cadeira ergonomica"
 };
 
 const cart = new Set();                                      
@@ -114,40 +117,58 @@ const cartListEl   = $('#cart-list');
 const closeCartBtn = $('#closeCart');
 const goCheckout   = $('#goCheckout');
 
-function renderCartList() {
-  if (!cartListEl) return;
-  const html = Array.from(cart).map(id => `<li>${itemsMap[id]}</li>`).join('');
-  cartListEl.innerHTML = html || '<li>Seu carrinho está vazio.</li>';
-}
 function updateCartBadge() {
   if (cartCountEl) cartCountEl.textContent = String(cart.size);
 }
-function showCart(message) {
+function showCart(message, fromCartButton = false, singleItemId = null) {
   if (cartMsg) cartMsg.textContent = message || 'Seu carrinho';
-  renderCartList();
+  
+  // Atualiza o título do modal
+  const cartTitle = document.getElementById('cart-title');
+  if (cartTitle) {
+    cartTitle.textContent = fromCartButton ? 'Seu Carrinho 🛒' : 'Produto adicionado 🛒';
+  }
+
+  renderCartList(fromCartButton ? null : singleItemId);
+  
+  const checkoutBtn = document.getElementById('goCheckout');
+  if (checkoutBtn) {
+    if (fromCartButton) {
+      checkoutBtn.style.display = 'none';
+    } else {
+      checkoutBtn.style.display = 'block';
+      // Remove qualquer evento de clique anterior
+      checkoutBtn.replaceWith(checkoutBtn.cloneNode(true));
+      // Adiciona o novo evento de clique
+      document.getElementById('goCheckout').addEventListener('click', () => {
+        showCart('Seu carrinho completo', true);
+      });
+    }
+  }
+  
   openModal(backdropCart, modalCart);
 }
 function hideCart() { closeModal(backdropCart, modalCart); }
 
 
-wireModalClose(backdropCart, modalCart, closeCartBtn, goCheckout);
+wireModalClose(backdropCart, modalCart, closeCartBtn);
 
 
-btnCart?.addEventListener('click', () => showCart('Seu carrinho'));
+btnCart?.addEventListener('click', () => showCart('Seu carrinho', true));
 
 
 $$('.btn.add').forEach(btn => {
   btn.addEventListener('click', () => {
-    const id   = btn.getAttribute('data-id');            // "1", "2" ou "3"
+    const id   = btn.getAttribute('data-id');
     const name = btn.getAttribute('data-item') || itemsMap[id] || 'Produto';
     if (!id) return;
 
     if (cart.has(id)) {
-      showCart(`${name} já está no carrinho.`);
+      showCart(`${name} já está no carrinho.`, false, id);
     } else {
       cart.add(id);
       updateCartBadge();
-      showCart(`${name} adicionado ao carrinho.`);
+      showCart(`${name} adicionado ao carrinho.`, false, id);
     }
   });
 });
@@ -157,17 +178,51 @@ const anoEl = $('#ano');
 if (anoEl) anoEl.textContent = new Date().getFullYear().toString();
 
 
-function renderCartList() {
+// Mapa de preços dos produtos
+const priceMap = {
+  "1": 399.90, // Attack Shark K86
+  "2": 189.90, // Attack Shark L80 PRO
+  "3": 139.90, // Attack Shark X11
+  "4": 69.99,  // mouse pad
+  "5": 149.90, // Webcam Full HD
+  "6": 779.90  // cadeira ergonomica
+};
+
+function renderCartList(singleItemId = null) {
   if (!cartListEl) return;
 
-  const html = Array.from(cart).map(id => `
+  let items;
+  if (singleItemId) {
+    items = [singleItemId];
+  } else {
+    items = Array.from(cart);
+  }
+
+  const html = items.map(id => `
     <li style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin:6px 0;">
-      <span>${itemsMap[id]}</span>
+      <div style="display:flex; flex-direction:column;">
+        <span>${itemsMap[id]}</span>
+        <span style="color:var(--brand); font-size:0.9em;">R$ ${priceMap[id].toFixed(2)}</span>
+      </div>
       <button class="btn ghost rm-item" data-id="${id}">Remover</button>
     </li>
   `).join('');
 
-  cartListEl.innerHTML = html || '<li>Seu carrinho está vazio.</li>';
+  // Adiciona o total apenas quando mostrar o carrinho completo
+  if (!singleItemId && items.length > 0) {
+    const total = items.reduce((sum, id) => sum + priceMap[id], 0);
+    cartListEl.innerHTML = `
+      ${html}
+      <li style="margin-top:16px; padding-top:16px; border-top:1px solid var(--border);">
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <strong>Total:</strong>
+          <strong style="color:var(--brand); font-size:1.1em;">R$ ${total.toFixed(2)}</strong>
+        </div>
+      </li>
+    `;
+  } else {
+    cartListEl.innerHTML = html || '<li>Seu carrinho está vazio.</li>';
+  }
 }
 
 cartListEl?.addEventListener('click', (e) => {
@@ -195,11 +250,11 @@ cartListEl?.addEventListener('click', (e) => {
       const name = btn.getAttribute('data-item');
       if (!id) return;
       if (cart.has(id)) {
-        showCart(`${name} já está no carrinho.`);
+        showCart(`${name} já está no carrinho.`, false, id);
       } else {
         cart.add(id);
         updateCartBadge();
-        showCart(`${name} adicionado ao carrinho.`);
+        showCart(`${name} adicionado ao carrinho.`, false, id);
       }
     });
   });
