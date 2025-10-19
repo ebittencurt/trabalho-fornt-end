@@ -241,36 +241,42 @@ aside.author {
 .newsletter label {
   font-weight: 600;
   color: var(--text);
-  min-width: 120px;
+  width: auto;
   display: inline-block;
+  margin-bottom: 4px;
+  font-size: 0.95rem;
 }
 
 .newsletter .row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--space-3);
-  flex-wrap: wrap;
-  align-items: end;
+  align-items: start;
 }
 
 .newsletter .field {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 6px;
-  flex: 1 1 250px;
+  position: relative;
+  min-width: 0;
 }
 
 .newsletter .actions {
-  flex: 0 0 auto; 
+  align-self: flex-end;
 }
 
 .newsletter input[type="email"],
 .newsletter input[type="text"] {
   width: 100%;
+  height: 42px;
   background: var(--input-dark);
   border: 1px solid var(--border-strong);
   color: #e5e7eb;
   border-radius: 10px;
   padding: 10px 12px;
   box-sizing: border-box;
+  font-size: 0.95rem;
 }
 
 body.light .newsletter input[type="email"],
@@ -348,6 +354,13 @@ footer {
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 8px 12px;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .cart-text {
+    display: none;
+  }
 }
 .cart-btn:hover { background: var(--hover-dark); }
 
