@@ -1,29 +1,28 @@
 ## Pontos de melhoria
 
-- [] quando buscar ir direto pro item e destaca-lo
-- [] mudar logo
-- [] colocar topbar para ficar sempre aparente
-- [] colocar area para ver itens favoritados
-- [X] tirar botão ver produtos
-- [X] colocar botão de mudar tema para o topbar
-- [X] adicionar mais itens na parte de ofertas relampaagos
-- [X] Melhorar botão do carrinho
-- [X] Colocar botão para remover itens do carrinho
-- [X] Melhorar responsividade 
-- [X] melhorar preços
+- [] quando buscar ir direto pro item e destaca-lo (ronald)
+- [] mudar logo (ronald)
+- [X] colocar area para ver itens favoritados (Junior)
+- [X] tirar botão ver produtos (Junior)
+- [X] colocar botão de mudar tema para o topbar (Junior)
+- [X] adicionar mais itens na parte de ofertas relampaagos (Junior)
+- [X] Melhorar botão do carrinho (Junior)
+- [X] Colocar botão para remover itens do carrinho (Junior)
+- [X] Melhorar responsividade (Junior)
+- [X] melhorar preços (Junior)
 
  
 
 ## Pontos quebrados
 
-- label do newsletter com tamanho diferentes (resolvido)
-- foto webcam menor 
-- item da ofertas relampago dando "undefined" no carrinho (resolvido)
-- botão ver carrinho não esta executando (resolvido)
-- topbar quebrada
+- label do newsletter com tamanho diferentes (Junior)
+- foto webcam menor (ronald)
+- item da ofertas relampago dando "undefined" no carrinho (Junior)
+- botão ver carrinho não esta executando (Junior)
+- topbar quebrada (ronald)
 
 
 ## explicação para o grupo
-- criar documentação para apresentar o grupo
-- criar mapa mental para vizualização
+- criar documentação para apresentar o grupo  (Junior)
+- criar mapa mental para vizualização (Junior)
 

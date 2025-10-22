@@ -41,6 +41,11 @@
   🛒 <span class="cart-text">Carrinho</span>
   <span id="cartCount" class="cart-badge" aria-label="itens no carrinho">0</span>
 </button>
+<!-- Favoritos -->
+<button id="btnFav" class="btn cart-btn" type="button" aria-label="Abrir favoritos">
+  ⭐ <span class="cart-text">Favoritos</span>
+  <span id="favCount" class="cart-badge" aria-label="itens favoritados">0</span>
+</button>
 <button id="toggleTema" class="btn secondary" type="button" aria-pressed="false" aria-label="Alternar tema" title="Alternar tema">
   <i class="fa-solid fa-moon" aria-hidden="true"></i>
 </button>
@@ -84,7 +89,7 @@
             </div>
             <div class="actions">
               <button class="btn add" data-id="1" data-item="Attack Shark K86">Adicionar ao carrinho</button>
-              <button class="btn secondary wish" data-item="Attack Shark K86">♡ Favoritar</button>
+              <button class="btn secondary wish" data-id="1" data-item="Attack Shark K86">♡ Favoritar</button>
             </div>
           </div>
         </article>
@@ -106,7 +111,7 @@
             </div>
             <div class="actions">
               <button class="btn add" data-id="2" data-item="Attack Shark L80 PRO">Adicionar ao carrinho</button>
-              <button class="btn secondary wish" data-item="Attack Shark L80 PRO">♡ Favoritar</button>
+              <button class="btn secondary wish" data-id="2" data-item="Attack Shark L80 PRO">♡ Favoritar</button>
             </div>
           </div>
         </article>
@@ -126,7 +131,7 @@
             </div>
             <div class="actions">
               <button class="btn add" data-id="3" data-item="Attack Shark X11">Adicionar ao carrinho</button>
-              <button class="btn secondary wish" data-item="Attack Shark X11">♡ Favoritar</button>
+              <button class="btn secondary wish" data-id="3" data-item="Attack Shark X11">♡ Favoritar</button>
             </div>
           </div>
         </article>
@@ -213,7 +218,9 @@
   <footer id="contato">
     <div class="container foot-wrap">
       <span>&copy; <span id="ano"></span> TECHNOVA — Projeto por <strong>Junior Bittencurt</strong></span>
-      <span>Feito com HTML Semântico, Flexbox e JS básico</span>
+      <span class="footer-actions">
+        <span>Feito com HTML Semântico, Flexbox e JS básico</span>
+      </span>
     </div>
   </footer>
 
@@ -246,6 +253,20 @@
     <div class="actions modal-cart-actions">
       <button class="btn ghost" id="closeCart">Fechar</button>
       <button class="btn" id="goCheckout">Ver carrinho</button>
+    </div>
+  </div>
+</div>
+<!-- Favoritos modal -->
+<div class="modal-backdrop" id="backdrop-fav" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal" id="modal-fav" role="document" aria-labelledby="fav-title">
+    <header>
+      <h3 id="fav-title">Seus Favoritos ★</h3>
+    </header>
+    <div class="content">
+      <ul id="fav-list" style="margin:10px 0 0; padding-left:18px;"></ul>
+    </div>
+    <div class="actions modal-fav-actions">
+      <button class="btn ghost" id="closeFav">Fechar</button>
     </div>
   </div>
 </div>
