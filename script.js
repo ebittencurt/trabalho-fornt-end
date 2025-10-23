@@ -86,15 +86,6 @@ function inscreverNewsletter() {
 window.inscreverNewsletter = inscreverNewsletter; 
 
 
-$$('.btn.wish').forEach(btn => {
-  btn.setAttribute('aria-pressed', 'false');
-  btn.textContent = '♡ Favoritar';
-  btn.addEventListener('click', () => {
-    const pressed = btn.getAttribute('aria-pressed') === 'true';
-    btn.setAttribute('aria-pressed', String(!pressed));
-    btn.textContent = pressed ? '♡ Favoritar' : '❤️ Desfavoritar';
-  });
-});
 
 
 const itemsMap = {
@@ -110,6 +101,15 @@ const cart = new Set();
 const cartCountEl = $('#cartCount');                         
 const btnCart      = $('#btnCart');                          
 
+const fav = new Set();
+const favCountEl = $('#favCount');
+const btnFav = $('#btnFav');
+
+const backdropFav = $('#backdrop-fav');
+const modalFav = $('#modal-fav');
+const favListEl = $('#fav-list');
+const closeFavBtn = $('#closeFav');
+
 const backdropCart = $('#backdrop-cart');
 const modalCart    = $('#modal-cart');
 const cartMsg      = $('#cart-msg');
@@ -120,10 +120,13 @@ const goCheckout   = $('#goCheckout');
 function updateCartBadge() {
   if (cartCountEl) cartCountEl.textContent = String(cart.size);
 }
+function updateFavBadge() {
+  if (favCountEl) favCountEl.textContent = String(fav.size);
+}
 function showCart(message, fromCartButton = false, singleItemId = null) {
   if (cartMsg) cartMsg.textContent = message || 'Seu carrinho';
   
-  // Atualiza o título do modal
+
   const cartTitle = document.getElementById('cart-title');
   if (cartTitle) {
     cartTitle.textContent = fromCartButton ? 'Seu Carrinho 🛒' : 'Produto adicionado 🛒';
@@ -137,9 +140,7 @@ function showCart(message, fromCartButton = false, singleItemId = null) {
       checkoutBtn.style.display = 'none';
     } else {
       checkoutBtn.style.display = 'block';
-      // Remove qualquer evento de clique anterior
       checkoutBtn.replaceWith(checkoutBtn.cloneNode(true));
-      // Adiciona o novo evento de clique
       document.getElementById('goCheckout').addEventListener('click', () => {
         showCart('Seu carrinho completo', true);
       });
@@ -178,14 +179,14 @@ const anoEl = $('#ano');
 if (anoEl) anoEl.textContent = new Date().getFullYear().toString();
 
 
-// Mapa de preços dos produtos
+
 const priceMap = {
-  "1": 399.90, // Attack Shark K86
-  "2": 189.90, // Attack Shark L80 PRO
-  "3": 139.90, // Attack Shark X11
-  "4": 69.99,  // mouse pad
-  "5": 149.90, // Webcam Full HD
-  "6": 779.90  // cadeira ergonomica
+  "1": 399.90, 
+  "2": 189.90, 
+  "3": 139.90, 
+  "4": 69.99, 
+  "5": 149.90, 
+  "6": 779.90  
 };
 
 function renderCartList(singleItemId = null) {
@@ -208,7 +209,7 @@ function renderCartList(singleItemId = null) {
     </li>
   `).join('');
 
-  // Adiciona o total apenas quando mostrar o carrinho completo
+ 
   if (!singleItemId && items.length > 0) {
     const total = items.reduce((sum, id) => sum + priceMap[id], 0);
     cartListEl.innerHTML = `
@@ -239,35 +240,109 @@ cartListEl?.addEventListener('click', (e) => {
   renderCartList();
 });
 
-(function montarOfertas(){
-  const grid = document.getElementById('ofertas-grid');
-  if (!grid) return;
-  grid.innerHTML = ofertas.map(cardProdutoHTML).join('');
 
-  document.querySelectorAll('#ofertas .btn.add').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id   = btn.getAttribute('data-id');
-      const name = btn.getAttribute('data-item');
-      if (!id) return;
-      if (cart.has(id)) {
-        showCart(`${name} já está no carrinho.`, false, id);
-      } else {
-        cart.add(id);
-        updateCartBadge();
-        showCart(`${name} adicionado ao carrinho.`, false, id);
-      }
-    });
+
+function loadFavFromStorage() {
+  try {
+    const raw = localStorage.getItem('favoritos:v1');
+    if (!raw) return;
+    const arr = JSON.parse(raw);
+    if (Array.isArray(arr)) arr.forEach(id => fav.add(String(id)));
+  } catch (e) {}
+}
+function saveFavToStorage() {
+  try {
+    localStorage.setItem('favoritos:v1', JSON.stringify(Array.from(fav)));
+  } catch (e) {}
+}
+
+function renderFavList() {
+  if (!favListEl) return;
+  if (fav.size === 0) {
+    favListEl.innerHTML = '<li>Você não adicionou favoritos.</li>';
+    return;
+  }
+
+  const html = Array.from(fav).map(id => `
+    <li style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin:6px 0;">
+      <div style="display:flex; flex-direction:column;">
+        <span>${itemsMap[id] || 'Produto'}</span>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <button class="btn ghost rm-fav" data-id="${id}">Remover</button>
+      </div>
+    </li>
+  `).join('');
+
+  favListEl.innerHTML = html;
+}
+
+favListEl?.addEventListener('click', (e) => {
+  const btn = e.target.closest('.rm-fav');
+  if (!btn) return;
+  const id = btn.getAttribute('data-id');
+  if (!id) return;
+  fav.delete(id);
+  saveFavToStorage();
+  updateFavBadge();
+  renderFavList();
+  const wishBtn = document.querySelector(`.btn.wish[data-id="${id}"]`);
+  if (wishBtn) {
+    wishBtn.setAttribute('aria-pressed', 'false');
+    wishBtn.textContent = '♡ Favoritar';
+  }
+});
+
+wireModalClose(backdropFav, modalFav, closeFavBtn);
+btnFav?.addEventListener('click', () => {
+  renderFavList();
+  openModal(backdropFav, modalFav);
+});
+
+const btnFavFooter = $('#btnFavFooter');
+const favCountFooter = $('#favCountFooter');
+if (btnFavFooter) {
+  btnFavFooter.addEventListener('click', () => {
+    renderFavList();
+    openModal(backdropFav, modalFav);
   });
+}
 
-  document.querySelectorAll('#ofertas .btn.wish').forEach(btn => {
+function syncFavBadges() {
+  updateFavBadge();
+  if (favCountFooter) favCountFooter.textContent = String(fav.size);
+}
+
+function wireWishButtons(root = document) {
+  $$('.btn.wish', root).forEach(btn => {
     const id = btn.getAttribute('data-id');
-    btn.setAttribute('aria-pressed', 'false');
-    btn.textContent = '♡ Favoritar';
-    btn.addEventListener('click', () => {
-      const pressed = btn.getAttribute('aria-pressed') === 'true';
-      btn.setAttribute('aria-pressed', String(!pressed));
-      btn.textContent = pressed ? '♡ Favoritar' : '❤️ Desfavoritar';
+    if (!id) return;
+    btn.setAttribute('aria-pressed', fav.has(id) ? 'true' : 'false');
+    btn.textContent = fav.has(id) ? '❤️ Desfavoritar' : '♡ Favoritar';
+    const clone = btn.cloneNode(true);
+    clone.addEventListener('click', () => {
+      const pressed = clone.getAttribute('aria-pressed') === 'true';
+      if (pressed) {
+        fav.delete(id);
+      } else {
+        fav.add(id);
+      }
+      clone.setAttribute('aria-pressed', String(!pressed));
+      clone.textContent = !pressed ? '❤️ Desfavoritar' : '♡ Favoritar';
+      saveFavToStorage();
+      syncFavBadges();
+      const other = document.querySelectorAll(`.btn.wish[data-id="${id}"]`);
+      other.forEach(el => {
+        if (el !== clone) {
+          el.setAttribute('aria-pressed', String(!pressed));
+          el.textContent = !pressed ? '❤️ Desfavoritar' : '♡ Favoritar';
+        }
+      });
     });
+    btn.replaceWith(clone);
   });
-})();
+}
+loadFavFromStorage();
+wireWishButtons();
+syncFavBadges();
 
