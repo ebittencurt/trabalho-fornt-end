@@ -1,3 +1,31 @@
+const searchForm = document.querySelector('.search-form');
+if (searchForm) {
+  searchForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const termo = (document.getElementById('q')?.value || '').trim().toLowerCase();
+    if (!termo) return;
+
+    const cards = Array.from(document.querySelectorAll('.card'));
+    let melhor = null;
+    let melhorScore = -1;
+    cards.forEach(card => {
+      const nome = card.querySelector('h3')?.textContent?.toLowerCase() || '';
+      let score = 0;
+      if (nome === termo) score = 100;
+      else if (nome.includes(termo)) score = 80;
+      else if (termo && nome.split(' ').some(w => termo.includes(w) || w.includes(termo))) score = 60;
+      if (score > melhorScore) {
+        melhor = card;
+        melhorScore = score;
+      }
+    });
+    if (melhor) {
+      melhor.scrollIntoView({behavior: 'smooth', block: 'center'});
+      melhor.classList.add('busca-destaque');
+      setTimeout(() => melhor.classList.remove('busca-destaque'), 1800);
+    }
+  });
+}
 
 const $  = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));

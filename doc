@@ -1,7 +1,7 @@
 ## Pontos de melhoria
 
-- [] quando buscar ir direto pro item e destaca-lo (ronald)
-- [] mudar logo (ronald)
+- [X] quando buscar ir direto pro item e destaca-lo (ronald)
+- [X] mudar logo (ronald)
 - [X] colocar area para ver itens favoritados (Junior)
 - [X] tirar botão ver produtos (Junior)
 - [X] colocar botão de mudar tema para o topbar (Junior)
@@ -20,6 +20,7 @@
 - item da ofertas relampago dando "undefined" no carrinho (Junior)
 - botão ver carrinho não esta executando (Junior)
 - topbar quebrada (ronald)
+
 
 
 ## explicação para o grupo
